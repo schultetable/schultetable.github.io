@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="description" content="Тренируйте скорочтение онлайн с помощью таблиц Шульте">
+		<meta name="keywords" content="таблица шульте, скорочтение, тренажер, периферическое зрение, зрительное восприятие, тренировка скорочтения">
+		<title>Таблица Шульте онлайн</title>
+		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="../bootstrap.min.css">
+		<style type="text/css">
+			body{
+				font-family: 'Roboto', sans-serif;
+				margin: 0;
+				background: #eee;
+			}
+			#main {
+				position: relative;
+				overflow: hidden;
+			}
+			#lang {
+				position: absolute;
+				top: 50px;
+				right: 0;
+				left: 50%;
+				margin-left: 350px;
+			}
+			#lang a {
+				display: block;
+				width: 50px;
+				height: 50px;
+				font-size: 1.3rem;
+				line-height: 50px;
+				border-radius: 25px;
+				margin: 0 auto;
+				background: #ddd;
+				color: #000;
+				text-align: center
+			}
+			#lang a:hover {
+				text-decoration: none;
+				background: #ccc;
+			}
+			#btn_gplay {
+				position: absolute;
+				right: 0;
+				left: 50%;
+				bottom: 0;
+				margin-left: 350px;
+				text-align: center;
+			}
+			#btn_gplay img {
+				width: 200px;
+			}
+			#btn_gplay a:hover img {
+				opacity: 0.7;
+			}
+			#main h1 {
+				position: absolute;
+				top: 120px;
+				right: 0;
+				left: 50%;
+				margin-left: 350px;
+				font-weight: 400;
+				font-size: 1.7rem;
+				text-align: center;
+			}
+			#content {
+				width: 700px;
+				margin: 50px auto 0;
+				position: relative;
+			}
+			#content:after {
+				content: '';
+				display: block;
+				padding-top: 100%;
+			}
+			#content .dot {
+				display: none;
+				width: 10px;
+				height: 10px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin: -10px 0 0 -10px;
+				background: #000;
+				opacity: 0.5;
+				border: 4px solid #fff;
+				border-radius: 100px;
+				box-sizing: content-box;
+			}
+			#settings, #result {
+				border: 1px solid #ddd;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background: #fff;
+				padding: 3%;
+				text-align: center;
+			}
+			#settings h2 {
+				text-align: center;
+				font-size: 1.5em;
+				margin-bottom: 30px;
+			}
+			#settings h6 {
+			}
+			#settings .setting_row {
+				margin: 20px 0;
+			}
+			#settings .btn-group {
+				margin: 0 auto;
+			}
+			#settings .btn {
+				font-size: 0.9rem;
+			}
+			#settings .btn.btn-lg {
+				font-size: 1.1rem;
+				margin-top: 30px;
+			}
+			#result {
+				display: none;
+				text-align: center;
+			}
+			#result .success_text {
+				display: inline-block;
+				padding: 10px 50px;
+				background: #68a931;
+				color: #fff;
+				margin-top: 50px;
+				border-radius: 100px;
+			}
+			#result .time_container {
+				display: table;
+				position: absolute;
+				top: 50%;
+				left: 20px;
+				right: 20px;
+				width: 94%;
+				height: 200px;
+				margin-top: -100px;
+			}
+			#result .time_container .inner {
+				display: table-cell;
+				width: 100%;
+				vertical-align: middle;
+			}
+			#result .time_container .current .time {
+				font-size: 2rem;
+			}
+			#result .btns {
+				position: absolute;
+				bottom: 3%;
+				left: 3%;
+				right: 3%;
+			}
+			#result .table_btns {
+				margin-bottom: 100px;
+			}
+			#result .table_btns > div,
+			#result .table_btns > a{
+				display: inline-block;
+				margin: 0 2%;
+				border-radius: 100px;
+				color: #000;
+				text-decoration: none;
+			}
+			#result .table_btns .btn_info,
+			#result .table_btns .btn_settings {
+				width: 25%;
+				height: 40px;
+				line-height: 40px;
+				background: #eee;
+			}
+			#result .table_btns .btn_restart {
+				width: 30%;
+				height: 50px;
+				line-height: 50px;
+				background: #68a931;
+				color: #fff;
+			}
+			#result .table_btns .btn_restart:hover {
+				background: #589921;
+				cursor: pointer;
+			}
+			#result .table_btns .btn_info:hover,
+			#result .table_btns .btn_settings:hover {
+				background: #dedede;
+				cursor: pointer;
+			}
+			#table {
+				display: none;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background: #fff;
+				font-size: 2em;
+			}
+			#table .s_row {
+				display: table;
+				width: 100%;
+			}
+			#table .s_row > div {
+				display: table-cell;
+				width: 20%;
+				position: relative;
+			}
+			#table.s_3 .s_row > div {
+				width: 33.33%;
+			}
+			#table.s_4 .s_row > div {
+				width: 25%;
+			}
+			#table.s_5 .s_row > div {
+				width: 20%;
+			}
+			#table.s_6 .s_row > div {
+				width: 16.66%;
+			}
+			#table.s_7 .s_row > div {
+				width: 14.28%;
+			}
+			#table.s_8 .s_row > div {
+				width: 12.5%;
+			}
+			#table.s_9 .s_row > div {
+				width: 11.11%;
+			}
+			#table.s_10 .s_row > div {
+				width: 10%;
+			}
+			#table .s_row > div:after {
+				content: '';
+				display: block;
+				margin-top: 100%;
+			}
+			#table .s_row div .element {
+				display: table;
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				background: #fff;
+				box-sizing: border-box;
+				border: 4px solid #eee;
+			}
+			#table .s_row.style_2 div .element {
+				color: #fff;
+			}
+			#table .s_row.style_3 {
+				background: #eee;
+			}
+			#table .s_row.style_3 div .element {
+				border-radius: 500px;
+			}
+			#table .s_row.style_2 div .element.red_0 {
+				background: #000;
+			}
+			#table .s_row.style_2 div .element.red_1 {
+				background: #ff0000;
+			}
+			#table .s_row.style_4 div .element.color_1 {
+				background: #F06292;
+			}
+			#table .s_row.style_4 div .element.color_2 {
+				background: #BA68C8;
+			}
+			#table .s_row.style_4 div .element.color_3 {
+				background: #9575CD;
+			}
+			#table .s_row.style_4 div .element.color_4 {
+				background: #7986CB;
+			}
+			#table .s_row.style_4 div .element.color_5 {
+				background: #64B5F6;
+			}
+			#table .s_row.style_4 div .element.color_6 {
+				background: #4DD0E1;
+			}
+			#table .s_row.style_4 div .element.color_7 {
+				background: #4DB6AC;
+			}
+			#table .s_row.style_4 div .element.color_8 {
+				background: #81C784;
+			}
+			#table .s_row.style_4 div .element.color_9 {
+				background: #AED581;
+			}
+			#table .s_row.style_4 div .element.color_10 {
+				background: #C6DA1D;
+			}
+			#table .s_row.style_4 div .element.color_11 {
+				background: #FFD54F;
+			}
+			#table .s_row.style_4 div .element.color_12 {
+				background: #FFB74D;
+			}
+			#table .s_row.style_4 div .element.color_13 {
+				background: #FF8A65;
+			}
+			
+			#table .s_row.style_1 div .element:hover,
+			#table .s_row.style_3 div .element:hover {
+				background: #f7f7f7;
+				cursor: pointer;
+			}
+			#table .s_row.style_2 div .element:hover,
+			#table .s_row.style_4 div .element:hover {
+				opacity: 0.8;
+				cursor: pointer;
+			}
+			#table .s_row div .element span {
+				display: table-cell;
+				text-align: center;
+				vertical-align: middle;
+			}
+			#table_helper {
+				display: none;
+				height: 200px;
+				position: absolute;
+				top: 300px;
+				right: 0px;
+				left: 50%;
+				margin: 0 0 0 350px;
+			}
+			#table_helper .wrapper {
+				display: table;
+				width: 100%;
+				height: 100%;
+			}
+			#table_helper .symbol_to_find {
+				display: table-cell;
+				width: 100%;
+				height: 100%;
+				vertical-align: middle;
+				text-align: center;
+				color: #aaa;
+			}
+			#table_helper .symbol_to_find .symbol {
+				font-size: 3rem;
+				color: #000;
+			}
+			#table_helper .timer {
+				font-size: 1.3rem;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				text-align: center;
+			}
+			
+			@media only screen and (max-width : 1100px) {
+				#lang {
+					position: relative;
+					top: auto;
+					right: auto;
+					left: auto;
+					margin: 20px auto;
+				}
+				#main h1 {
+					position: relative;
+					top: auto;
+					right: auto;
+					left: auto;
+					margin: 20px 0;
+				}
+				#btn_gplay {
+					position: relative;
+					right: auto;
+					left: auto;
+					bottom: auto;
+					margin: 0 auto;
+				}
+				#table_helper {
+					display: none;
+					height: auto;
+					position: relative;
+					top: auto;
+					right: auto;
+					left: auto;
+					margin: 20px 0;
+				}
+				#table_helper .timer {
+					position: relative;
+					bottom: auto;
+					left: auto;
+					right: auto;
+				}
+				#content {
+					margin: 0 auto;
+				}
+			}
+			
+			@media only screen and (max-width : 720px) {
+				#main h1 {
+					font-size: 1.5rem;
+				}
+				#content {
+					width: 96%;
+				}
+				#content:after {
+					display: none;
+				}
+				#settings,
+				#result,
+				#table {
+					position: relative;
+					top: auto;
+					right: auto;
+					bottom: auto;
+					left: auto;
+				}
+				#settings .btn-group,
+				#settings .btn {
+					display: block;
+				}
+				#settings .btn.btn-success {
+					display: inline-block;
+				}
+				#result {
+					display: none;
+					text-align: center;
+				}
+				#result .time_container {
+					display: block;
+					position: relative;
+					top: auto;
+					left: auto;
+					right: auto;
+					width: auto;
+					height: auto;
+					margin: 20px 0;
+				}
+				#result .time_container .inner {
+					display: block;
+				}
+				#result .btns {
+					position: relative;
+					bottom: auto;
+					left: auto;
+					right: auto;
+				}
+				#result .table_btns {
+					margin: 50px 0;
+					font-size: 0.9rem;
+				}
+				#result .table_btns > div,
+				#result .table_btns > a{
+					display: block;
+					margin: 10px auto;
+				}
+				#result .table_btns .btn_info,
+				#result .table_btns .btn_settings {
+					width: 40%;
+				}
+				#result .table_btns .btn_restart {
+					width: 50%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<div id="lang"><a href="/training/en">En</a></div>
+			<h1>Таблица Шульте онлайн</h1>
+			<div id="table_helper">
+				<div class="wrapper">
+					<div class="symbol_to_find"><span class="symbol"></span><br>Найдите символ</div>
+				</div>
+				<div class="timer"></div>
+			</div>
+			<div id="content">
+				<div id="settings">
+					<h2>Настройки</h2>
+					<div class="setting_row">
+						<h6>Размер таблицы</h6>
+						<div class="btn-group btn-group-toggle table-size" data-toggle="buttons">
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="size3" data-table-size="3"> 3x3
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="size4" data-table-size="4"> 4x4
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="size5" data-table-size="5" checked> 5x5
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="size6" data-table-size="6"> 6x6
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="size7" data-table-size="7"> 7x7
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="size8" data-table-size="8"> 8x8
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="size9" data-table-size="9"> 9x9
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="size10" data-table-size="10"> 10x10
+							</label>
+						</div>
+					</div>
+					<div class="setting_row">
+						<h6>Тип таблицы</h6>
+						<div class="btn-group btn-group-toggle table-type" data-toggle="buttons">
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="type1" data-table-type="1" checked> Числовая
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="type2" data-table-type="2"> Буквенная
+							</label>
+						</div>
+					</div>
+					<div class="setting_row">
+						<h6>Стиль таблицы</h6>
+						<div class="btn-group btn-group-toggle table-style" data-toggle="buttons">
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="style1" data-table-style="1" checked> Классический
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="style2" data-table-style="2"> Красно-черный
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="style3" data-table-style="3"> Круглые ячейки
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="style4" data-table-style="4"> Цветные ячейки
+							</label>
+						</div>
+					</div>
+					<div class="setting_row">
+						<h6>Порядок символов</h6>
+						<div class="btn-group btn-group-toggle order" data-toggle="buttons">
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="order1" data-order="1" checked> Прямой
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="order2" data-order="2"> Обратный
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="order3" data-order="3"> Случайный
+							</label>
+						</div>
+					</div>
+					<div class="setting_row">
+						<h6>Перемешивать при клике</h6>
+						<div class="btn-group btn-group-toggle shuffle" data-toggle="buttons">
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="shuffleOn" data-shuffle="1" checked> Да
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="shuffleOff" data-shuffle="0"> Нет
+							</label>
+						</div>
+					</div>
+					<div class="setting_row">
+						<h6>Показывать точку в центре</h6>
+						<div class="btn-group btn-group-toggle table-dot" data-toggle="buttons">
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="dotOn" data-dot="1"> Да
+							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="dotOff" data-dot="0" checked> Нет
+							</label>
+						</div>
+					</div>
+					<div class="setting_row">
+						<button type="button" class="btn btn-success btn-lg">Старт!</button>
+					</div>
+				</div>
+				<div id="result">
+					<!--div class="success_text">Успех!</div-->
+					<div class="time_container">
+						<div class="inner">
+							<span class="current">Ваш результат:<br><span class="time">00:00</span></span><br><br>
+							<span class="record">Рекорд: <span class="time">00:00</span></span>
+						</div>
+					</div>
+					<div class="btns">
+						<div class="table_btns">
+							<a class="btn_info" href="/">Информация</a>
+							<div class="btn_restart">Заново</div>
+							<div class="btn_settings">Настройки</div>
+						</div>
+						<div class="share_btns">
+							<script src="https://yastatic.net/es5-shims/0.0.2/es5-shims.min.js"></script>
+							<script src="https://yastatic.net/share2/share.js"></script>
+							<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,moimir,twitter,reddit,whatsapp,telegram"></div>
+						</div>
+					</div>
+				</div>
+				<div id="table" data-lang="АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюяDFGLNQRSUVWZdfglnqrsuvwzαβδεθλπυψω">
+
+				</div>
+				<div class="dot"></div>
+			</div>
+			<div id="btn_gplay">
+				<a href='https://play.google.com/store/apps/details?id=ru.kriopeg.pdd.bileti&referrer=utm_source%3Dweb_schulte_ru%26utm_medium%3Dtrain' target="_blank"><img alt='Доступно в Google Play' src='../images/google-play-badge-ru.png'/></a>
+			</div>
+		</div>
+		
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="../jquery-3.4.1.slim.min.js"></script>
+		<script src="../popper.min.js"></script>
+		<script src="../bootstrap.min.js"></script>
+		<script src="../scripts.js"></script>
+		
+		<!-- Yandex.Metrika counter -->
+		<script type="text/javascript" >
+		   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+		   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+		   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+		   ym(57669151, "init", {
+				clickmap:true,
+				trackLinks:true,
+				accurateTrackBounce:true
+		   });
+		</script>
+		<noscript><div><img src="https://mc.yandex.ru/watch/57669151" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+		<!-- /Yandex.Metrika counter -->
+	</body>
+</html>
