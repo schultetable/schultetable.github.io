@@ -189,7 +189,7 @@ $(document).ready(function() {
 	
 	function generateDigitsArray(size) {
 		var dArray = new Array(100);
-		for (i = 1; i < 100; i++) {
+		for (i = 1; i <= 100; i++) {
 			dArray[i - 1] = i;
 		}
 		return dArray;
