@@ -124,6 +124,7 @@
 			}
 			#settings .setting_row {
 				margin: 20px 0;
+				position: relative;
 			}
 			#settings .btn-group {
 				margin: 0 auto;
@@ -134,6 +135,17 @@
 			#settings .btn.btn-lg {
 				font-size: 1.1rem;
 				margin-top: 30px;
+			}
+			#settings .show_for_gorbov {
+				display: none;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: #fff;
+				opacity: 0.8;
+				z-index: 10;
 			}
 			#result {
 				display: none;
@@ -360,7 +372,11 @@
 			}
 			#table_helper .symbol_to_find .symbol {
 				font-size: 3rem;
+				font-weight: bold;
 				color: #000;
+			}
+			#table_helper .symbol_to_find .symbol.red {
+				color: #ff0000;
 			}
 			#table_helper .timer {
 				font-size: 1.3rem;
@@ -532,6 +548,9 @@
 							<label class="btn btn-light">
 								<input type="radio" name="options" id="type2" data-table-type="2">Letters
 							</label>
+							<label class="btn btn-light">
+								<input type="radio" name="options" id="type3" data-table-type="3">Gorbov-Schulte
+							</label>
 						</div>
 					</div>
 					<div class="setting_row">
@@ -540,9 +559,9 @@
 							<label class="btn btn-light">
 								<input type="radio" name="options" id="style1" data-table-style="1" checked>Classic
 							</label>
-							<label class="btn btn-light">
+							<!--label class="btn btn-light">
 								<input type="radio" name="options" id="style2" data-table-style="2">Red/Black
-							</label>
+							</label-->
 							<label class="btn btn-light">
 								<input type="radio" name="options" id="style3" data-table-style="3">Round cells
 							</label>
@@ -550,6 +569,7 @@
 								<input type="radio" name="options" id="style4" data-table-style="4">Colored
 							</label>
 						</div>
+						<div class="show_for_gorbov"></div>
 					</div>
 					<div class="setting_row">
 						<h6>Symbols order</h6>
@@ -564,6 +584,7 @@
 								<input type="radio" name="options" id="order3" data-order="3">Random
 							</label>
 						</div>
+						<div class="show_for_gorbov"></div>
 					</div>
 					<div class="setting_row">
 						<h6>Shuffle on click</h6>
