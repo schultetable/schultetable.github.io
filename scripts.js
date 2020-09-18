@@ -6,6 +6,10 @@ $(document).ready(function() {
 	
 	var TABLE_TYPE_DIGITS = 1;
 	var TABLE_TYPE_LETTERS = 2;
+	var TABLE_TYPE_GORBOV = 3;
+	
+	var CELL_TYPE_BLACK = 0;
+	var CELL_TYPE_RED = 1;
 	
 	var TABLE_STYLE_CLASSIC = 1;
 	var TABLE_STYLE_RED = 2;
@@ -66,6 +70,11 @@ $(document).ready(function() {
 	
 	settingsTypeBtns.click(function() {
 		tableType = $(this).attr('data-table-type');
+		if (tableType == TABLE_TYPE_GORBOV) {
+			$('.show_for_gorbov').show();
+		} else {
+			$('.show_for_gorbov').hide();
+		}
 	});
 	
 	settingsStyleBtns.click(function() {
@@ -101,19 +110,27 @@ $(document).ready(function() {
 			elementsArray = ELEMENTS_DIGITS.slice(0, tableSize * tableSize);
 		} else if (tableType == TABLE_TYPE_LETTERS) {
 			elementsArray = tableNode.attr('data-lang').split('').slice(0, tableSize * tableSize);
+		} else if (tableType == TABLE_TYPE_GORBOV) {
+			elementsArray = generateGorbovArray(tableSize * tableSize);
 		}
 		
-		if (tableOrder == TABLE_ORDER_RANDOM) {
-			shuffle(elementsArray);
-		} else if (tableOrder == TABLE_ORDER_REVERSE) {
-			elementsArray.reverse();
+		if (tableType != TABLE_TYPE_GORBOV) {
+			if (tableOrder == TABLE_ORDER_RANDOM) {
+				shuffle(elementsArray);
+			} else if (tableOrder == TABLE_ORDER_REVERSE) {
+				elementsArray.reverse();
+			}
 		}
 		
 		resetTable();
 		
 		timeSec = 0;
 		currentElement = 0;
-		symbolToFindNode.text(elementsArray[currentElement]);
+		if (tableType == TABLE_TYPE_GORBOV) {
+			symbolToFindNode.text(elementsArray[currentElement].value);
+		} else {
+			symbolToFindNode.text(elementsArray[currentElement]);
+		}
 		timerNode.text("00:00");
 		
 		timerId = setInterval(timerFunction, 1000);
@@ -124,25 +141,58 @@ $(document).ready(function() {
 		var tableElements = elementsArray.slice(0, elementsArray.length);
 		shuffle(tableElements);
 		for (i = 0; i < tableSize; i++) {
-			tableNode.append('<div class="s_row style_' + tableStyle + '" ></div>');
+			if (tableType == TABLE_TYPE_GORBOV) {
+				tableNode.append('<div class="s_row style_' + TABLE_STYLE_RED + '" ></div>');
+			} else {
+				tableNode.append('<div class="s_row style_' + tableStyle + '" ></div>');
+			}
 			var rowNode = tableNode.find('.s_row:last-of-type');
 			for (j = 0; j < tableSize; j++) {
-				var redBlack = 0;
 				var cellColor = 0;
-				if (tableStyle == TABLE_STYLE_RED) {
-					redBlack = randomInteger(0, 1);
-				}
 				if (tableStyle == TABLE_STYLE_COLOR) {
 					cellColor = randomInteger(1, 13);
 				}
-				rowNode.append('<div><span class="element red_' + redBlack + ' color_' + cellColor + '"><span>' + tableElements[i * tableSize + j] + '</span></span></div>');
+				if (tableType == TABLE_TYPE_GORBOV) {
+					var cell = tableElements[i * tableSize + j];
+					rowNode.append('<div><span class="element red_' + cell.type + ' color_' + cellColor + '"><span>' + cell.value + '</span></span></div>');
+				} else {
+					rowNode.append('<div><span class="element color_' + cellColor + '"><span>' + tableElements[i * tableSize + j] + '</span></span></div>');
+				}
 			}
 		}
 		tableNode.find('.element').click(function() {
-			if ($(this).find('span').text().toString() == elementsArray[currentElement].toString()) {
+			var currentElementValue;
+			var clickedElementValue;
+			if (tableType == TABLE_TYPE_GORBOV) {
+				currentElementValue = elementsArray[currentElement].value;
+				if (elementsArray[currentElement].type == CELL_TYPE_BLACK) {
+					currentElementValue += 'b';
+				} else {
+					currentElementValue += 'r';
+				}
+				clickedElementValue = $(this).find('span').text().toString();
+				if ($(this).hasClass('red_0')) {
+					clickedElementValue += 'b';
+				} else {
+					clickedElementValue += 'r';
+				}
+			} else {
+				currentElementValue = elementsArray[currentElement].toString();
+				clickedElementValue = $(this).find('span').text().toString();
+			}
+			if (clickedElementValue == currentElementValue) {
 				currentElement++;
 				if (currentElement < elementsArray.length) {
-					symbolToFindNode.text(elementsArray[currentElement]);
+					if (tableType == TABLE_TYPE_GORBOV) {
+						symbolToFindNode.text(elementsArray[currentElement].value);
+						if (elementsArray[currentElement].type == CELL_TYPE_RED) {
+							symbolToFindNode.addClass('red');
+						} else {
+							symbolToFindNode.removeClass('red');
+						}
+					} else {
+						symbolToFindNode.text(elementsArray[currentElement]);
+					}
 					if (shuffleOnClick) {
 						resetTable();
 					}
@@ -193,6 +243,30 @@ $(document).ready(function() {
 			dArray[i - 1] = i;
 		}
 		return dArray;
+	}
+	
+	function generateGorbovArray(size) {
+		var list = new Array(size);
+		var indexB = 0;
+		var indexR = Math.floor(size / 2) + 1;
+		for (var i = 1; i <= size; i++) {
+			if (i % 2 == 0) {
+				indexR--;
+				let cell = {
+					type: CELL_TYPE_RED,
+					value: indexR.toString()
+				};
+				list[i - 1] = cell;
+			} else {
+				indexB++;
+				let cell = {
+					type: CELL_TYPE_BLACK,
+					value: indexB.toString()
+				};
+				list[i - 1] = cell;
+			}
+		}
+		return list;
 	}
 	
 	function timerFunction() {
