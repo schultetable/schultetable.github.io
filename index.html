@@ -72,7 +72,7 @@
 			}
 			#content {
 				width: 700px;
-				margin: 50px auto 0;
+				margin: 20px auto;
 				position: relative;
 			}
 			#description {
@@ -80,7 +80,7 @@
 				background: #fff;
 				padding: 3%;
 			}
-			h1 {
+			h1, h2 {
 				font-weight: 500;
 			}
 			b {
@@ -137,6 +137,10 @@
 					font-size: 1.5rem;
 					text-align: center;
 				}
+				h2 {
+					font-size: 1.3rem;
+					text-align: center;
+				}
 				#description .btns_container a {
 					display: block;
 					width: 70%;
@@ -144,6 +148,7 @@
 				}
 			}
 		</style>
+		<script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
 	</head>
 	<body>
 		<div id="main">
@@ -160,6 +165,14 @@
 						<a href="/training" class="online">Тренироваться онлайн</a>
 						<a href="https://play.google.com/store/apps/details?id=ru.kriopeg.schultetable&referrer=utm_source%3Dweb_schulte_ru%26utm_medium%3Dmain" class="android" target="_blank">Скачать на Android</a>
 					</div>
+				</div>
+				<h2>Отзывы и комментарии</h2>
+				<div id="comments">
+					<div id="vk_comments"></div>
+					<script type="text/javascript">
+					  VK.init({apiId: 7746161, onlyWidgets: true});
+					  VK.Widgets.Comments("vk_comments", {limit: 20, attach: false, autoPublish: true, pageUrl: "https://schultetable.ru" }, "main_ru");
+					</script>
 				</div>
 			</div>
 		</div>
