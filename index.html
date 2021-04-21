@@ -134,6 +134,41 @@
 			#description .btns_container a.android {
 				background: #399a2d;
 			}
+			#content .pdd_link {
+				display: block;
+				border: 1px solid #ddd;
+				position: relative;
+				border-radius: 100px;
+				height: 32px;
+				background: #fff;
+				padding: 9px 5%;
+				margin: 20px 0;
+				font-size: 16px;
+				color: #000;
+				text-decoration: none;
+				line-height: 16px;
+			}
+			#content .pdd_link i {
+				font-size: 12px;
+				color: #555;
+				font-style: normal;
+				line-height: 16px;
+			}
+			#content .pdd_link:hover {
+				background: #fdfdfd;
+			}
+			#content .pdd_link .arrow {
+				border: solid black;
+				border-width: 0 3px 3px 0;
+				display: inline-block;
+				padding: 4px;
+				transform: rotate(-45deg);
+				-webkit-transform: rotate(-45deg);
+				position: absolute;
+				right: 4%;
+				top: 50%;
+				margin-top: -5px;
+			}
 			
 			@media only screen and (max-width : 900px) {
 				#lang {
@@ -170,6 +205,22 @@
 					margin: 20px auto;
 				}
 			}
+			
+			@media only screen and (max-width : 480px) {
+				#content .pdd_link {
+					padding: 10px 5%;
+					font-size: 15px;
+					height: 30px;
+					line-height: 15px;
+				}
+				#content .pdd_link i {
+					font-size: 13px;
+					line-height: 15px;
+				}
+				#content .pdd_link .arrow {
+					display: none;
+				}
+			}
 		</style>
 		<script data-ad-client="ca-pub-3217707890057220" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 		<script type="text/javascript" src="https://vk.com/js/api/openapi.js?168"></script>
@@ -200,6 +251,9 @@
 						<a href="https://play.google.com/store/apps/details?id=ru.kriopeg.schultetable&referrer=utm_source%3Dweb_schulte_ru%26utm_medium%3Dmain" class="android" target="_blank">Скачать на Android</a>
 					</div>
 				</div>
+				
+				<a href="https://expdd.ru" target="_blank" class="pdd_link">Экзаменационные билеты ПДД (AB/CD) <br><i>Сдай экзамен в ГИБДД на отлично!</i><span class="arrow"></span></a>
+				
 				<h2>Отзывы и комментарии</h2>
 				<div id="comments">
 					<div id="vk_comments"></div>
